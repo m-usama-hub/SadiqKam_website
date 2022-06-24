@@ -23,11 +23,11 @@
                     <h3 class="text-themecolor">{{ isset($title) ? $title : '' }}</h3>
                 </div>
 
-                {{-- @can('role-create')
+                @can('role-create')
                     <div class="text-right" style="margin-top: -37px!important">
                         <a href="{{route('role.create')}}" class="btn btn-gr-red">Create Role</a>  
                     </div>
-                @endcan --}}
+                @endcan
 
                 <form class="m-t-20" action="{{ route('role.index') }}" autocomplete="off">
                     <div class="row">

@@ -57,7 +57,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => 'in:'.implode(',',Role::get()->pluck('name')->toArray()),            
+            'user_type_id' => ['required'],
+            // 'role' => 'in:'.implode(',',Role::get()->pluck('name')->toArray()),            
         ]);
     }
 
@@ -72,30 +73,31 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'user_type_id' => $data['user_type_id'],
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->assignRole($data['role']);
+        $user->assignRole($user->UserType->getRoleNames());
 
-        if($user->hasRole('Organization')){
+        // if($user->hasRole('Organization')){
 
-            Company::create([
-                'user_id'=>$user->id,
-                "contact_no"=>$data['number'] ?? '',
-                "isActive"=>1,
-            ]);
+        //     Company::create([
+        //         'user_id'=>$user->id,
+        //         "contact_no"=>$data['number'] ?? '',
+        //         "isActive"=>1,
+        //     ]);
 
-        }
+        // }
 
-        if($user->hasRole('Donar')){
+        // if($user->hasRole('Donar')){
 
-            Donar::create([
-                'user_id'=>$user->id,
-                "contact_no"=>$data['number'] ?? '',
-                "isActive"=>1,
-            ]);
+        //     Donar::create([
+        //         'user_id'=>$user->id,
+        //         "contact_no"=>$data['number'] ?? '',
+        //         "isActive"=>1,
+        //     ]);
 
-        }
+        // }
 
         return $user;
     }

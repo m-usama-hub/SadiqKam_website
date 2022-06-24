@@ -19,8 +19,8 @@
                                 <h5 class="m-b-0 user-name font-medium">{{ auth()->user()->name }}
                                     <br>
                                     <strong>
-
-                                        ({{ Auth::user()->getRoleNames()[0] ?? '' }})
+                                        {{-- ({{ Auth::user()->getRoleNames()[0] ?? '' }}) --}}
+                                        ({{ Auth::user()->UserType->user_type_name }})
                                     </strong>
                                 </h5>
                                 {{-- <span class="op-5 user-email">Role:
@@ -79,6 +79,11 @@
                             href="{{ route('company.index') }}" aria-expanded="false"><i
                                 class="mdi  mdi-home-modern"></i><span class="hide-menu">Organizations</span></a></li>
                 @endcan
+                {{-- @can('UsertypeRoleMapping') --}}
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{ route('mapping.index') }}" aria-expanded="false"><i
+                                class="mdi  mdi-home-modern"></i><span class="hide-menu">User Type Mapping</span></a></li>
+                {{-- @endcan --}}
                 {{-- @can('employee-list')
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                     href="{{ route('employee.index') }}" aria-expanded="false"><i

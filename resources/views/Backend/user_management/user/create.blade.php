@@ -60,6 +60,19 @@
                                     <span class="error">{{ $errors->first('password') }}</span>
                                 </div>
                             </div>
+                            <div class="col-md-3">  
+                                <div class="form-group">
+                                    <h5>User Type<span class="text-danger">*</span></h5>
+                                    <select class="select2 form-control" name="user_type_id" id="user_type_id"
+                                        data-placeholder="Select Roles" required
+                                        data-validation-required-message="Please Select Role">
+                                        <option value="" selected>---Select User Type---</option>
+                                            @foreach (App\Models\User_type::get() as $type)
+                                                <option value="{{ $type->id }}">{{ $type->user_type_name }}</option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <h5>Assign Role <span class="text-danger">*</span></h5>

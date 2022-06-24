@@ -107,10 +107,9 @@ class RoleController extends Controller
             $role = Role::create(['name' => $request->input('name')]);
             $role->syncPermissions($request->input('permission'));
 
-            return redirect()->view('Backend.user_management.role.index')
-                            ->with('message','Role created successfully');
+            return redirect()->back()->with('message','Role created successfully');
         } catch (Exception $e) {
-            return back()->withError($e->getMessage())->withInput();
+            return redirect()->back()->withError($e->getMessage())->withInput();
         }
     }
     /**

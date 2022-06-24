@@ -35,6 +35,7 @@ Route::group([
     Route::post('/edit-permission',[UserManagement\PermissionController::class,'EditPermission']);
     Route::post('/delete-permission',[UserManagement\PermissionController::class,'DeletePermission']);
 
+    Route::resource('mapping',UserManagement\RoleUserMappngController::class);
 
     Route::resource('company',CompanyController::class);
     Route::post('/company/{id}',[CompanyController::class,'update']);

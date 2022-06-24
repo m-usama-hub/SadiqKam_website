@@ -141,26 +141,26 @@ class UserController extends Controller
 
             }
 
-            // $NotInUserType = [Config::get("constants.UserTypeIds.SuperAdmin")];
-            // $query->whereNotIn("user_type_id" , $NotInUserType);
+            $NotInUserType = [Config::get("constants.UserTypeIds.SuperAdmin")];
+            $query->whereNotIn("user_type_id" , $NotInUserType);
             $query->with("UserType");
             if (!empty($request->name)) {
                 $query->where('name','like','%'.$request->name.'%');
             }
-            // if (!empty($request->user_type_id)) {
-            //     $query->where('user_type_id',$request->user_type_id);
-            // }
+            if (!empty($request->user_type_id)) {
+                $query->where('user_type_id',$request->user_type_id);
+            }
 
             $users     =   $query->orderBy('id','DESC')->paginate($per_page);
 
-            // $user_types = User_type::whereNotIn('id', $NotInUserType)->get();
-            // $user_types = User_type::get();
+            $user_types = User_type::whereNotIn('id', $NotInUserType)->get();
+            $user_types = User_type::get();
 
             $pages      =   $users->appends(\Request::except('page'))->render();
             // dd($users);
             $data = [
                 'users'             =>  $users,
-                // 'user_types'             =>  $user_types,
+                'user_types'             =>  $user_types,
                 'umActive'          =>  1,
                 'userActive'        =>  1,
                 'per_page'          =>  $per_page,
@@ -244,7 +244,7 @@ class UserController extends Controller
                 'name'              =>  'required',
                 'email'             =>  'required|email|unique:users,email',
                 'password'          =>  'required|same:confirm-password',
-                // 'user_type_id'      =>  'required',
+                'user_type_id'      =>  'required',
                 'roles'             =>  'required',
                 'status'            =>  'required',
             ]);
@@ -253,6 +253,8 @@ class UserController extends Controller
 
             $input['password'] = Hash::make($input['password']);
             // $input['user_type_id'] = Config::get('constants.UserTypeIds.Admin');
+
+            // dd($input);
 
             $user = User::create($input);
 
@@ -361,7 +363,12 @@ class UserController extends Controller
             // }
             DB::table('model_has_roles')->where('model_id',$id)->delete();
 
-            $user->assignRole($request->input('roles'));
+            // dd($request->input('roles'));
+
+            foreach ($request->input('roles') as $key => $role) {
+                $user->assignRole($role);
+            }
+
 
             return redirect()->route('user.index')->with('message','User updated successfully');
         } catch (Exception $e) {

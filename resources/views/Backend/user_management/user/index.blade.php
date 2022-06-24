@@ -22,11 +22,11 @@
         <div class="card white-box">
             <div class="card white-box">
                 <div class="card-body">
-                    {{-- @can('user-create')
+                    @can('user-create')
             <div class="">
                 <a href="{{route('user.create')}}" class="btn btn-gr-red zoomer">Create New User</a>
             </div>
-            @endcan --}}
+            @endcan
 
                     <div class="">
                         <h3 class="text-themecolor">{{ isset($title) ? $title : '' }}</h3>
@@ -34,12 +34,36 @@
                     <hr>
                     <form class="m-t-20" action="{{ route('user.index') }}" autocomplete="off" id="frmUserList">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <h5>Name</h5>
                                     <div class="controls">
                                         <input type="text" name="name" value="{{ Request::get('name') }}" id="name"
                                             class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <h5>UserType</h5>
+                                    <div class="controls">
+                                        <select class=" form-control" id="user_type" name="user_type_id">
+                                            <option value="" selected>
+                                                -- Select UserType --
+                                            </option>
+                                            @if (count(App\Models\User_type::get()) > 0)
+                                                @foreach (App\Models\User_type ::get() as $k => $record)
+                                                    <option value="{{ $record->id }}"
+                                                        {{ Request::get('user_type_id') == $record->id ? 'selected' : '' }}>
+                                                        {{ $record->user_type_name }}
+                                                    </option>
+                                                @endforeach
+                                            @else
+                                                <option value="" selected disabled class="text-danger">
+                                                    UserTypes Are Not Found.
+                                                </option>
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +109,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3 ">
+                            <div class="col-md-1">
                                 <h5>&nbsp;</h5>
                                 <div class="controls">
                                     <button type="submit" class="btn btn-primary zoomer">Search <i class="fa fa-search"
@@ -123,6 +147,10 @@
                                     </th>
                                     <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4"
                                         class="border">
+                                        User Type
+                                    </th>
+                                    <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4"
+                                        class="border">
                                         Roles
                                     </th>
                                     <!-- <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4" class="border">
@@ -140,13 +168,14 @@
                                         <tr>
                                             <td>{{ ++$k + ($users->currentPage() - 1) * $per_page }}</td>
                                             <td>{{ $user->name }}</td>
-                                            {{-- <td>{{ !empty($user->UserType) ? $user->UserType->user_type_name : '' }}</td> --}}
                                             <td>{{ $user->email }}</td>
+                                            
+                                            <td><label class="badge badge-secondary">{{ !empty($user->UserType) ? $user->UserType->user_type_name : '' }}</label></td>
 
                                             <td align="center">
                                                 @if (!empty($user->getRoleNames()))
                                                     @foreach ($user->getRoleNames() as $v)
-                                                        <label class="badge badge-secondary">{{ $v }}</label>
+                                                        <label class="badge badge-success">{{ $v }}</label>
                                                     @endforeach
                                                 @endif
                                             </td>

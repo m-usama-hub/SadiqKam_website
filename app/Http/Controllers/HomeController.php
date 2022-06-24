@@ -26,23 +26,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->hasRole('Donar')){
+
+        if(Auth::user()->isUserLoggedIn()){
+
+            dd('In User Login');
 
             return redirect('/');
 
         }
 
-        if(Auth::user()->hasRole('Organization')){
+        if(Auth::user()->isCompanyLoggedIn()){
 
-            // dd(Auth::user()->OrganizationDetail);
+            dd('In Company Login');
+
+            // return redirect()->route('user.index');
+            return redirect('/');
+
+        }
+
+        if(Auth::user()->isAdminLoggedIn()){
+
+            dd('In Admin Login');
 
             return redirect()->route('user.index');
-            return redirect('/');
-
 
         }
 
-        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('SuperAdmin')){
+        if(Auth::user()->isSuperAdminLoggedIn()){
 
             return redirect()->route('user.index');
 

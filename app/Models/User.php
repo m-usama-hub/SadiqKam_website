@@ -59,22 +59,26 @@ class User extends Authenticatable
 
     public function isSuperAdminLoggedIn()
     {
-        return Auth::user()->hasRole('SuperAdmin');
+        // return Auth::user()->hasRole('SuperAdmin');
+        return Auth::user()->user_type_id == Config('constants.UserTypeIds.SuperAdmin');
     }
 
     public function isAdminLoggedIn()
     {
-        return Auth::user()->hasRole('Admin');
+        // return Auth::user()->hasRole('Admin');
+        return Auth::user()->user_type_id == Config('constants.UserTypeIds.Admin');
     }
 
     public function isCompanyLoggedIn()
     {
-        return Auth::user()->hasRole('Organization');
+        // return Auth::user()->hasRole('Organization');
+        return Auth::user()->user_type_id == Config('constants.UserTypeIds.Company');
     }
 
     public function isUserLoggedIn()
     {
-        return Auth::user()->hasRole('Donar');
+        // return Auth::user()->hasRole('Donar');
+        return Auth::user()->user_type_id == Config('constants.UserTypeIds.User');
     }
 
     public function GetProfilePic()

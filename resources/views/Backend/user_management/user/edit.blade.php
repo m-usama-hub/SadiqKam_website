@@ -63,7 +63,7 @@
                                 <div class="form-group  col-md-6">
                                     <h5>Assign Role <span class="text-danger">*</span></h5>
                                     <div class="controls">
-                                        <select class="select2 form-control" name="roles" id="roles" data-placeholder="Select Roles" required data-validation-required-message="Please Select Role">
+                                        <select class="select2 form-control" name="roles[]" multiple id="roles" data-placeholder="Select Roles" required data-validation-required-message="Please Select Role">
                                             <option value="">Select Role</option>
                                             <@if(isset($roles) && count($roles) > 0)
                                                     @foreach ($roles as $role)
